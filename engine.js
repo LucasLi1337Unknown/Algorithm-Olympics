@@ -3,9 +3,13 @@ const AO = (()=>{
  function rng(seed){let a=seed>>>0;return()=>{a+=0x6D2B79F5;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
  const W=21,H=15,N=W*H,S=W+1,G=N-W-2;
  function neighbors(i){const x=i%W,y=Math.floor(i/W);return [[x+1,y],[x,y+1],[x-1,y],[x,y-1]].filter(([a,b])=>a>=0&&b>=0&&a<W&&b<H).map(([a,b])=>b*W+a);}
- function map(seed,preset){const r=rng(seed),grid=Array(N).fill(1);for(let y=0;y<H;y++)for(let x=0;x<W;x++){let i=y*W+x;if(x===0||y===0||x===W-1||y===H-1)grid[i]=0;else if(preset==='open')grid[i]=1;else if(preset==='mud')grid[i]=r()<.3?5:1;else if(preset==='zigzag')grid[i]=(x%4===0&&y!==(x%8===0?2:H-3))?0:1;else grid[i]=r()<.29?0:1;}
- // A safe route keeps generated random arenas playable. User edits may remove it.
- if(preset==='random'){for(let x=1;x<W-1;x++)grid[W+x]=1;for(let y=1;y<H-1;y++)grid[y*W+W-2]=1;}grid[S]=grid[G]=1;return grid;}
+ function map(seed,preset){const r=rng(seed);let grid;
+ function sample(){const a=Array(N).fill(0);for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){const i=y*W+x;a[i]=preset==='open'?1:preset==='mud'?(r()<.3?5:1):preset==='zigzag'?((x%4===0&&y!==(x%8===0?2:H-3))?0:1):(r()<.29?0:1);}a[S]=a[G]=1;return a;}
+ if(preset!=='random')return sample();
+ // Reject disconnected or trivial arenas instead of carving a fixed edge shortcut.
+ for(let attempt=0;attempt<200;attempt++){grid=sample();const result=search(grid,'BFS');while(!result.iterator.next().done){}const path=result.state.path;let turns=0;for(let i=2;i<path.length;i++)if(path[i]-path[i-1]!==path[i-1]-path[i-2])turns++;if(path.length>33&&turns>=4)return grid;}
+ // Bounded fallback: randomized depth-first maze carving guarantees connectivity.
+ grid=Array(N).fill(0);const stack=[S];grid[S]=1;while(stack.length){const u=stack[stack.length-1],x=u%W,y=Math.floor(u/W);const choices=[[x+2,y],[x,y+2],[x-2,y],[x,y-2]].filter(([a,b])=>a>0&&b>0&&a<W-1&&b<H-1&&!grid[b*W+a]).map(([a,b])=>b*W+a);if(!choices.length){stack.pop();continue;}const v=choices[Math.floor(r()*choices.length)];grid[(u+v)/2]=grid[v]=1;stack.push(v);}return grid;}
  const heuristic=i=>Math.abs(i%W-G%W)+Math.abs(Math.floor(i/W)-Math.floor(G/W));
  function search(grid,kind){const state={visited:[],path:[],cost:null,done:false,frontier:1};const dist=Array(N).fill(Infinity),parent=Array(N).fill(-1),seen=new Set(),queued=new Set([S]);dist[S]=0;const q=[S];
  function* run(){while(q.length){let idx=kind==='DFS'?q.length-1:0;if(kind==='Dijkstra'||kind==='A*')for(let j=1;j<q.length;j++)if(dist[q[j]]+(kind==='A*'?heuristic(q[j]):0)<dist[q[idx]]+(kind==='A*'?heuristic(q[idx]):0))idx=j;const u=q.splice(idx,1)[0];queued.delete(u);if(seen.has(u))continue;seen.add(u);state.visited.push(u);state.frontier=q.length;if(u===G){let p=G;while(p!==-1){state.path.unshift(p);p=parent[p];}state.cost=dist[G];yield state;break;}for(const v of neighbors(u)){if(!grid[v]||seen.has(v))continue;const d=dist[u]+grid[v];if(kind==='BFS'||kind==='DFS'){if(dist[v]!==Infinity)continue;dist[v]=d;parent[v]=u;q.push(v);queued.add(v);}else if(d<dist[v]){dist[v]=d;parent[v]=u;if(!queued.has(v)){q.push(v);queued.add(v);}}}state.frontier=q.length;yield state;}state.done=true;return state;}
