@@ -22,3 +22,13 @@ All simulations are implemented in `engine.js` and advance through JavaScript ge
 `engine.js`: algorithms and deterministic generators. `app.js`: controls, rendering, standings. `style.css`: responsive interface. `test.cjs`: algorithm invariants across 40 seeds.
 
 Pathfinding background: [Red Blob Games](https://www.redblobgames.com/pathfinding/a-star/introduction.html).
+
+## 100 Sort Chaos Arena
+
+Open `chaos.html` for 100 simultaneous sorting contestants: independent algorithms and explicitly named implementation variants. This runnable roster differs from the brainstorming list; it does not claim to implement every research sorter in that list. Each uses an independent copy of the same 1–99 integer array. Power-of-two sizes support sorting networks. All generators run cooperatively on the browser thread; they are concurrent simulations, not 100 hardware threads.
+
+Includes algorithm families: bubble, cocktail, comb, gnome, odd-even, selection, cycle, insertion, Shell, search trees (unbalanced/AVL/treap/splay), patience, quick/intro, merge, heap, counting, bucket, radix, American flag, bead, bitonic, odd-even merge network, pancake, stooge, slow, bogo, random swap, bogobogo, strand, pigeonhole and tournament. Variants identify real choices (pivot, partition, gap sequence, arity, build method, radix base, cutoff or traversal), not merely different colors.
+
+Operations include comparisons, main-array swaps/writes and selected auxiliary work; one operation is one generator yield. Rankings are implementation-specific and are not runtime benchmarks. Completion checks order AND equality with a sorted copy of the original input. Budget-stopped racers remain unfinished. The user can inspect any racer, change data distributions, highlight a family, replay, single-step and enter fullscreen.
+
+Run `node chaos-test.cjs` to validate all 100 contestants across 90 input configurations, including duplicate-heavy arrays. Deliberately slow algorithms may reach the explicit budget.
