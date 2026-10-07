@@ -25,7 +25,7 @@ Pathfinding background: [Red Blob Games](https://www.redblobgames.com/pathfindin
 
 ## 500 Sort Chaos Arena
 
-Open `chaos.html` for 500 simultaneous sorting contestants: independent algorithms and explicitly named implementation variants. This runnable roster differs from the brainstorming list; it does not claim to implement every research sorter in that list. Each uses an independent copy of the same 1–99 integer array. Power-of-two sizes support sorting networks. All generators run cooperatively on the browser thread; they are concurrent simulations, not 500 hardware threads.
+Open `archive-500.html` for 500 simultaneous sorting contestants: independent algorithms and explicitly named implementation variants. This runnable roster differs from the brainstorming list; it does not claim to implement every research sorter in that list. Each uses an independent copy of the same 1–99 integer array. Power-of-two sizes support sorting networks. All generators run cooperatively on the browser thread; they are concurrent simulations, not 500 hardware threads.
 
 Includes algorithm families: bubble, cocktail, comb, gnome, odd-even, selection, cycle, insertion, Shell, search trees (unbalanced/AVL/treap/splay), patience, quick/intro, merge, heap, counting, bucket, radix, American flag, bead, bitonic, odd-even merge network, pancake, stooge, slow, bogo, random swap, bogobogo, strand, pigeonhole and tournament. Variants identify real choices (pivot, partition, gap sequence, arity, build method, radix base, cutoff or traversal), not merely different colors.
 
@@ -33,4 +33,8 @@ Operations include comparisons, main-array swaps/writes and selected auxiliary w
 
 Run `node chaos-test.cjs` to validate all 500 contestants across 90 input configurations, including duplicate-heavy arrays. Deliberately slow algorithms may reach the explicit budget.
 
-The complete numbered roster is in [500-SORTS.md](500-SORTS.md), with [CSV export](500-sorts.csv). The arena can show all 500 contestants or zoom into groups of 100; changing the view does not stop the other racers. Variants change actual engine parameters, though some may perform identical work on a particular input.
+The complete numbered roster is in [500-SORTS.md](500-SORTS.md), with [CSV export](500-sorts.csv). The archived arena can show all 500 contestants or zoom into groups of 100; changing the view does not stop the other racers. Variants change actual engine parameters, though some may perform identical work on a particular input.
+
+## Lucas’s Lolz Arena (current default)
+
+`chaos.html` now races 100 meme-named custom hybrid recipes: ten grouping strategies × ten established local sorting methods, followed by balanced merging. These share components; they are not claimed to be 100 newly discovered algorithms. Each close-up explains its executable recipe and current stage. The default podium shows the best finisher from each crew; switch it to rank all contestants. Full roster: [LOLZ-100.md](LOLZ-100.md). Run `node lolz-test.cjs` to check correctness, duplicates, edge cases, determinism, unique configurations, and budget behavior. The previous 500-variant arena remains at `archive-500.html`.
