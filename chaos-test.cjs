@@ -1,6 +1,6 @@
-const assert=require('node:assert/strict'),C=require('./chaos-engine');assert.equal(C.catalog.length,100);assert.equal(new Set(C.catalog.map(e=>e.name)).size,100);
+const assert=require('node:assert/strict'),C=require('./chaos-engine');assert.equal(C.catalog.length,500);assert.equal(new Set(C.catalog.map(e=>e.name)).size,500);
 let completed=0,capped=0;
 for(const size of [8,16,32,64,128])for(const pattern of ['random','reverse','sorted','almost','duplicates','mountain'])for(const seed of [1,1337,42]){const input=C.input(seed,size,pattern),expected=[...input].sort((a,b)=>a-b);for(const e of C.catalog){const bogo=['Bogo','Random swap','Bogobogo','Stooge','Slow'].includes(e.family),r=C.racer(e,input,seed,bogo?3000:150000);let ticks=0;while(!r.state.done&&!r.state.capped&&!r.state.error&&ticks++<160000)r.step();assert.equal(r.state.error,'',`${e.name} ${size} ${pattern}: ${r.state.error}`);assert.ok(r.state.done||r.state.capped,`${e.name} stalled`);if(r.state.done){assert.deepEqual(r.state.a,expected,`${e.name} ${size} ${pattern}`);completed++;}else{assert.ok(bogo,`${e.name} unexpectedly capped`);capped++;}}}
-console.log(`PASS: 100 contestants × 90 inputs; ${completed} validated finishes, ${capped} honest budget stops.`);
+console.log(`PASS: 500 contestants × 90 inputs; ${completed} validated finishes, ${capped} honest budget stops.`);
 for(const e of C.catalog){const r=C.racer(e,[3,1,4,2],7,500000);for(let i=0;i<500005&&!r.state.done&&!r.state.capped;i++)r.step();assert.equal(r.state.error,'');if(r.state.done)assert.deepEqual(r.state.a,[1,2,3,4]);}
 console.log('PASS: deterministic tiny-field and chaos-family checks.');

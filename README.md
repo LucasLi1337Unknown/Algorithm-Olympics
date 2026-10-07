@@ -23,12 +23,14 @@ All simulations are implemented in `engine.js` and advance through JavaScript ge
 
 Pathfinding background: [Red Blob Games](https://www.redblobgames.com/pathfinding/a-star/introduction.html).
 
-## 100 Sort Chaos Arena
+## 500 Sort Chaos Arena
 
-Open `chaos.html` for 100 simultaneous sorting contestants: independent algorithms and explicitly named implementation variants. This runnable roster differs from the brainstorming list; it does not claim to implement every research sorter in that list. Each uses an independent copy of the same 1–99 integer array. Power-of-two sizes support sorting networks. All generators run cooperatively on the browser thread; they are concurrent simulations, not 100 hardware threads.
+Open `chaos.html` for 500 simultaneous sorting contestants: independent algorithms and explicitly named implementation variants. This runnable roster differs from the brainstorming list; it does not claim to implement every research sorter in that list. Each uses an independent copy of the same 1–99 integer array. Power-of-two sizes support sorting networks. All generators run cooperatively on the browser thread; they are concurrent simulations, not 500 hardware threads.
 
 Includes algorithm families: bubble, cocktail, comb, gnome, odd-even, selection, cycle, insertion, Shell, search trees (unbalanced/AVL/treap/splay), patience, quick/intro, merge, heap, counting, bucket, radix, American flag, bead, bitonic, odd-even merge network, pancake, stooge, slow, bogo, random swap, bogobogo, strand, pigeonhole and tournament. Variants identify real choices (pivot, partition, gap sequence, arity, build method, radix base, cutoff or traversal), not merely different colors.
 
 Operations include comparisons, main-array swaps/writes and selected auxiliary work; one operation is one generator yield. Rankings are implementation-specific and are not runtime benchmarks. Completion checks order AND equality with a sorted copy of the original input. Budget-stopped racers remain unfinished. The user can inspect any racer, change data distributions, highlight a family, replay, single-step and enter fullscreen.
 
-Run `node chaos-test.cjs` to validate all 100 contestants across 90 input configurations, including duplicate-heavy arrays. Deliberately slow algorithms may reach the explicit budget.
+Run `node chaos-test.cjs` to validate all 500 contestants across 90 input configurations, including duplicate-heavy arrays. Deliberately slow algorithms may reach the explicit budget.
+
+The complete numbered roster is in [500-SORTS.md](500-SORTS.md), with [CSV export](500-sorts.csv). The arena can show all 500 contestants or zoom into groups of 100; changing the view does not stop the other racers. Variants change actual engine parameters, though some may perform identical work on a particular input.
