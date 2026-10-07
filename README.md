@@ -38,3 +38,9 @@ The complete numbered roster is in [500-SORTS.md](500-SORTS.md), with [CSV expor
 ## Lucas’s Lolz Arena (current default)
 
 `chaos.html` now races 100 meme-named custom hybrid recipes: ten grouping strategies × ten established local sorting methods, followed by balanced merging. These share components; they are not claimed to be 100 newly discovered algorithms. Each close-up explains its executable recipe and current stage. The default podium shows the best finisher from each crew; switch it to rank all contestants. Full roster: [LOLZ-100.md](LOLZ-100.md). Run `node lolz-test.cjs` to check correctness, duplicates, edge cases, determinism, unique configurations, and budget behavior. The previous 500-variant arena remains at `archive-500.html`.
+
+## Dead End Derby: classics vs Lucas Lolz
+
+Open [maze-lolz.html](https://lucasli1337unknown.github.io/Algorithm-Olympics/maze-lolz.html) for twenty simultaneous maze explorers: ten established policies and ten custom Lolz policies. Each receives identical walls and goal coordinates; nobody receives the solution. Seeded growing-tree carving produces connected acyclic passage graphs, with sixteen candidates scored for exit-path length, turns and dead ends. A connectivity + edge-count check verifies the unique-route property. Sizes range from 15×15 to 45×45 logical rooms.
+
+Separate planner and walker leaderboards compare cell visits within each category, not CPU time. Scores count selected exploration actions, not frontier-scan work or a universal performance measure. The unique exit path makes all verified finishers’ path lengths equal. Random walking and iterative deepening may stop at the explicit budget. Custom policies are experimental combinations, not claims of original scientific discoveries. Click a contestant for its rule and live map; reveal is visual only. Test with `node maze-lolz-test.cjs`.
